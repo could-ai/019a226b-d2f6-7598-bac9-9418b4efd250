@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'providers/auth_provider.dart';
-import 'providers/consultation_provider.dart';
-import 'screens/login_screen.dart';
-import 'screens/register_screen.dart';
-import 'screens/dashboard_screen.dart';
-import 'screens/symptom_entry_screen.dart';
-import 'screens/doctor_matching_screen.dart';
-import 'screens/payment_screen.dart';
-import 'screens/consultation_screen.dart';
-import 'screens/feedback_screen.dart';
-import 'screens/forum_screen.dart';
-import 'screens/webinar_screen.dart';
-import 'screens/corporate_dashboard_screen.dart';
-import 'screens/admin_panel_screen.dart';
+import '../providers/auth_provider.dart';
+import '../providers/consultation_provider.dart';
+import '../utils/notification_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize notifications
+  await NotificationService.initialize();
+
   runApp(const CareTeamAfricaApp());
 }
 
@@ -27,8 +21,8 @@ class CareTeamAfricaApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
-        ChangeNotifierProvider(create: (_) => ConsultationProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()..loadUser()),
+        ChangeNotifierProvider(create: (_) => ConsultationProvider()..loadFromStorage()),
       ],
       child: MaterialApp.router(
         title: 'CareTeam Africa',
@@ -39,11 +33,31 @@ class CareTeamAfricaApp extends StatelessWidget {
           appBarTheme: const AppBarTheme(
             backgroundColor: Color(0xFF1E3A8A),
             foregroundColor: Colors.white,
+            elevation: 0,
           ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF1E3A8A),
               foregroundColor: Colors.white,
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+          cardTheme: CardTheme(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          inputDecorationTheme: InputDecorationTheme(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Color(0xFF1E3A8A), width: 2),
+              borderRadius: BorderRadius.circular(12),
             ),
           ),
           colorScheme: ColorScheme.fromSeed(
@@ -116,3 +130,17 @@ final GoRouter _router = GoRouter(
     ),
   ],
 );
+
+// Import all screens
+import 'screens/login_screen.dart';
+import 'screens/register_screen.dart';
+import 'screens/dashboard_screen.dart';
+import 'screens/symptom_entry_screen.dart';
+import 'screens/doctor_matching_screen.dart';
+import 'screens/payment_screen.dart';
+import 'screens/consultation_screen.dart';
+import 'screens/feedback_screen.dart';
+import 'screens/forum_screen.dart';
+import 'screens/webinar_screen.dart';
+import 'screens/corporate_dashboard_screen.dart';
+import 'screens/admin_panel_screen.dart';

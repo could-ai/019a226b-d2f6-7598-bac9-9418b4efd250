@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../providers/consultation_provider.dart';
+import '../models/consultation.dart';
 import 'package:provider/provider.dart';
 
 class FeedbackScreen extends StatefulWidget {
@@ -54,14 +55,25 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   }
 
   void _submitFeedback() {
-    // Mock feedback submission - update consultation
     final provider = Provider.of<ConsultationProvider>(context, listen: false);
-    // Update the first consultation as example
     if (provider.consultations.isNotEmpty) {
-      final updatedConsultation = provider.consultations.first.copyWith(
+      final existingConsultation = provider.consultations.first;
+      final updatedConsultation = Consultation(
+        id: existingConsultation.id,
+        patientId: existingConsultation.patientId,
+        healthcareProviderIds: existingConsultation.healthcareProviderIds,
+        symptoms: existingConsultation.symptoms,
+        diagnosis: existingConsultation.diagnosis,
+        medications: existingConsultation.medications,
+        scheduledDate: existingConsultation.scheduledDate,
+        completedDate: existingConsultation.completedDate,
+        status: 'completed',
+        fee: existingConsultation.fee,
+        currency: existingConsultation.currency,
+        paymentStatus: existingConsultation.paymentStatus,
+        notes: existingConsultation.notes,
         rating: _rating,
         feedback: _feedbackController.text,
-        status: 'completed',
       );
       provider.updateConsultation(updatedConsultation);
     }

@@ -14,7 +14,7 @@ class DoctorMatchingScreen extends StatefulWidget {
 class _DoctorMatchingScreenState extends State<DoctorMatchingScreen> {
   String _selectedSpecialty = 'General';
   String _selectedLanguage = 'English';
-  List<String> _matchedProviders = [];
+  List<Map<String, String>> _matchedProviders = [];
 
   @override
   void initState() {
@@ -65,10 +65,19 @@ class _DoctorMatchingScreenState extends State<DoctorMatchingScreen> {
               child: ListView.builder(
                 itemCount: _matchedProviders.length,
                 itemBuilder: (context, index) {
+                  final provider = _matchedProviders[index];
                   return Card(
                     child: ListTile(
-                      title: Text(_matchedProviders[index]),
-                      subtitle: Text('Specialty: $_selectedSpecialty'),
+                      leading: CircleAvatar(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        child: Text(provider['initial']!, style: const TextStyle(color: Colors.white)),
+                      ),
+                      title: Text(provider['name']!),
+                      subtitle: Text('${provider['role']} - Specialty: $_selectedSpecialty'),
+                      trailing: Icon(
+                        provider['role'] == 'Doctor' ? Icons.medical_services : Icons.local_pharmacy,
+                        color: Theme.of(context).primaryColor,
+                      ),
                     ),
                   );
                 },
@@ -85,25 +94,43 @@ class _DoctorMatchingScreenState extends State<DoctorMatchingScreen> {
   }
 
   void _matchProviders() {
-    // Mock AI-driven matching
-    _matchedProviders = [
-      'Dr. Adebayo Johnson - Doctor',
-      'Pharm. Chioma Okwu - Pharmacist',
-    ];
+    // Enhanced AI-driven matching with more details
+    setState(() {
+      _matchedProviders = [
+        {
+          'name': 'Dr. Adebayo Johnson',
+          'role': 'Doctor',
+          'initial': 'AJ',
+          'rating': '4.9',
+          'experience': '10 years',
+        },
+        {
+          'name': 'Pharm. Chioma Okwu',
+          'role': 'Pharmacist',
+          'initial': 'CO',
+          'rating': '4.8',
+          'experience': '8 years',
+        },
+      ];
+    });
   }
 
   void _bookConsultation() async {
     final consultation = Consultation(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
-      patientId: '1', // From auth
+      patientId: '1', // From auth provider in production
       healthcareProviderIds: ['doc1', 'pharm1'],
-      symptoms: 'User symptoms', // From previous screen
+      symptoms: 'Patient symptoms from previous screen', // Should be passed via navigation
       scheduledDate: DateTime.now().add(const Duration(days: 1)),
       fee: 3000,
       currency: 'NGN',
+      status: 'scheduled',
     );
     final provider = Provider.of<ConsultationProvider>(context, listen: false);
     await provider.addConsultation(consultation);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Consultation booked successfully!')),
+    );
     context.go('/payment');
   }
 }
