@@ -1,16 +1,48 @@
-# couldai_user_app
+# CareTeam Africa - Digital Healthcare Platform
 
-A new Flutter project.
+## Overview
+
+CareTeam Africa is a comprehensive telehealth platform developed by Terainz Healthcare Ltd, designed to make quality healthcare accessible across Africa through virtual consultations, team-based care, and chronic disease management.
+
+## Features
+
+### Core Functionality
+- **Virtual Consultations**: Team-based consultations with doctors and pharmacists
+- **Symptom Checker**: AI-driven triage before booking
+- **Payment System**: Multiple currencies and payment methods
+- **Health Community**: Forums for chronic illness support
+- **Webinars**: Health education and Q&A sessions
+- **Corporate Health**: Employee wellness programs
+- **Admin Dashboard**: Analytics and performance tracking
+
+### Technical Stack
+- **Frontend**: Flutter (Web & Mobile)
+- **Backend**: Supabase (Database, Auth, Edge Functions)
+- **AI Features**: Symptom triage and doctor matching
+- **Payments**: Paystack/Flutterwave integration
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1. Ensure Flutter is installed
+2. Run `flutter pub get` to install dependencies
+3. Run `flutter run -d web` for web preview
 
-A few resources to get you started if this is your first Flutter project:
+## Development Notes
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+This prototype uses local storage for data persistence. For production deployment:
+- Connect Supabase for database and authentication
+- Deploy AI triage as Edge Functions
+- Integrate real payment gateways
+- Implement actual video calling (Agora/Jitsi)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Branding
+
+- **Colors**: Royal Blue (#1E3A8A) and Gold (#FFD700)
+- **Tone**: Professional, compassionate, Afro-modern
+
+## Future Enhancements
+
+- Mobile app deployment (iOS/Android)
+- Wearable device integration
+- Advanced ML for medication adherence
+- API integrations with hospitals and labs
