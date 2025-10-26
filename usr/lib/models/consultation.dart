@@ -33,6 +33,42 @@ class Consultation {
     this.feedback,
   });
 
+  Consultation copyWith({
+    String? id,
+    String? patientId,
+    List<String>? healthcareProviderIds,
+    String? symptoms,
+    String? diagnosis,
+    List<String>? medications,
+    DateTime? scheduledDate,
+    DateTime? completedDate,
+    String? status,
+    double? fee,
+    String? currency,
+    String? paymentStatus,
+    List<String>? notes,
+    double? rating,
+    String? feedback,
+  }) {
+    return Consultation(
+      id: id ?? this.id,
+      patientId: patientId ?? this.patientId,
+      healthcareProviderIds: healthcareProviderIds ?? this.healthcareProviderIds,
+      symptoms: symptoms ?? this.symptoms,
+      diagnosis: diagnosis ?? this.diagnosis,
+      medications: medications ?? this.medications,
+      scheduledDate: scheduledDate ?? this.scheduledDate,
+      completedDate: completedDate ?? this.completedDate,
+      status: status ?? this.status,
+      fee: fee ?? this.fee,
+      currency: currency ?? this.currency,
+      paymentStatus: paymentStatus ?? this.paymentStatus,
+      notes: notes ?? this.notes,
+      rating: rating ?? this.rating,
+      feedback: feedback ?? this.feedback,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
